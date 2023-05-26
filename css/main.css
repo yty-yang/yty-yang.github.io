@@ -1172,7 +1172,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #ff1fc3;
+  background: #8ff9ff;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2398,6 +2398,9 @@ button:hover {
   cursor: url("https://cdn.jsdelivr.net/gh/sviptzk/HexoStaticFile@latest/Hexo/img/pointer.cur"), auto !important;
 }
 i:hover {
+  cursor: url("https://cdn.jsdelivr.net/gh/sviptzk/HexoStaticFile@latest/Hexo/img/pointer.cur"), auto !important;
+}
+span:hover {
   cursor: url("https://cdn.jsdelivr.net/gh/sviptzk/HexoStaticFile@latest/Hexo/img/pointer.cur"), auto !important;
 }
 .header-inner {
