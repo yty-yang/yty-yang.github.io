@@ -54,8 +54,8 @@
     <title>Self Balancing Tree Summary</title>
     <url>/2023/08/02/Self-Balancing-Tree-summary/</url>
     <content><![CDATA[<h1 id="自平衡树的一些总结"><a href="#自平衡树的一些总结" class="headerlink" title="自平衡树的一些总结"></a>自平衡树的一些总结</h1><p>最近在学cs61b， 然后夏校要写个结课essay，正好就总结一下最近学的这几个data structure。</p>
-<p>因为是essay，练习了一下LaTeX。懒得去看怎么让hexo支持LaTeX语法了，就直接把pdf版贴过来。</p>
-<div class="pdfobject-container" data-target="/self_balancing_tree.pdf" data-height="500px"></div>]]></content>
+<p>因为是essay，练习了一下LaTeX。懒得去看怎么让hexo支持LaTeX语法了，就直接把pdf版贴过来。<br><a href="/pdf/self_balancing_tree.pdf">pdf</a><br>[pdf]<div class="pdfobject-container" data-target="/pdf/self_balancing_tree.pdf" data-height="500px"></div></p>
+]]></content>
       <categories>
         <category>学习相关</category>
       </categories>
