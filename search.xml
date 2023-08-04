@@ -61,6 +61,82 @@
       </categories>
       <tags>
         <tag>summary</tag>
+        <tag>cs61b</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CS61b Project2: Main Structure of My Gitlet</title>
+    <url>/2023/08/03/CS61b-project2-main-structure-of-my-gitlet/</url>
+    <content><![CDATA[<p>CS61b的精髓：project2。在埋头写完四五个功能之后写到checkout，脑子已经乱的不行了，都不知道自己创建了什么文件夹，都有哪些类每个类放哪里…确实，按照note需要写一个gitlet-design的文档说明gitlet的结构。本来以为这主要是规范化，让别人能读懂写出来的代码，没想到项目时间超过一天，确实是睡一觉之后昨天写的就是别人写的，根本不知道是什么意思。</p>
+<p>现在，鉴于我已经不大知道我写了什么了，必须得及时止损忍痛重写。“先把结构规划好，再填补细节”的习惯现在看起来是非常的重要。代码简单，只有一条线性的逻辑的时候脑袋里想一想，细节和框架一起出来了就顺着写下去，等到代码复杂的时候，眼光就会被局限在细节的地方，写到后面才发现有很多其他的操作也会影响之前的操作，然后不断改来改去。所以说，在经历痛打之后大家就会意识到abstraction确实是非常有用的方法。</p>
+<p>anyway，下一部分是我的gitlet的结构（我觉得应该先想文件存放在哪里，文件夹怎么套，文件里存什么，然后再想怎么写code操作这些文件。文件夹分好了，代码也大差不差，基本上一个class对应一个文件夹吧）</p>
+<p><img src="/../image/gitlet_structure.png" alt="image"></p>
+<p><strong>init</strong></p>
+<ol>
+<li>create <em>GITLET_DIR</em></li>
+<li>create <em>Blobs</em></li>
+<li>create <em>Commits</em><br>new a commit(auto commit, no parent, empty fileversion)<br>new a tree, add the commit to it, save</li>
+<li>create <em>Branches</em><br>new a branch(named ‘master’), set auto commit as beginCommit and endCommit, save</li>
+<li>create <em>Stages</em><br>new a stage, set branchName as ‘master’</li>
+<li>create the <em>tree</em>(file)</li>
+</ol>
+<p><strong>add</strong></p>
+<ol>
+<li>create a blob, put &lt;file, blob&gt; into ‘addition’ in stage</li>
+</ol>
+<p><strong>commit</strong></p>
+<ol>
+<li>create a commit, set ‘fileversion’ as its parent commit’s ‘fileversion’</li>
+<li>if a file is in ‘Addition’, overwirte the file in ‘fileversion’ by the version of that in ‘Addition’, clear ‘Addition’</li>
+<li>if a file is in ‘Removal’, remove the file from stage, clear ‘Removal’</li>
+<li>add the commit to tree</li>
+<li>renew the endCommmit of the branch</li>
+</ol>
+<p><strong>rm</strong></p>
+<ol>
+<li>check if the file is in ‘Addition’; delete it and its corresponding blob if it’s in</li>
+<li>check if the file is tracked in headcommit(if the ‘fileversion’ of head commit contains the file), put it in ‘Removal’ area of stage, delete it from workingdir</li>
+</ol>
+<p><strong>log</strong></p>
+<ol>
+<li>print head commit</li>
+<li>print it’s parent commit</li>
+</ol>
+<p><strong>global-log</strong></p>
+<ol>
+<li>iterate the ‘Commits’ directory, print each of the commits.</li>
+</ol>
+<p><strong>find</strong></p>
+<ol>
+<li>iterate the ‘Commits’ directory, print the commits with the message looking for</li>
+</ol>
+<p><strong>status</strong></p>
+<ol>
+<li>print branch</li>
+<li>print files in ‘Addition’</li>
+<li>print files in ‘Removal’</li>
+<li>check if all files that are tracked by headcommit and not in ‘Removal’ exist in workingdir, if not, save the file name</li>
+<li>print files which are missing</li>
+<li>create a blob of all files that exist in workingdir</li>
+<li>compare them with the tracked version in headcommit, use a flag to store if it’s same or not.</li>
+<li>compare them with the version in ‘Addition’(if they are in it), use a flag to store if it’s same or not.</li>
+<li>print files’ name which are different</li>
+<li>save files which are not tracked by headcommit, and not in ‘Addition’</li>
+<li>print the files’ name</li>
+</ol>
+<p>（就是写到这个功能然后就发现乱七八糟）</p>
+<p><strong>checkout</strong></p>
+<ol>
+<li>find the blob needed</li>
+<li>overwrite the file in workingdir</li>
+<li>put the new &lt;file, blob&gt; in ‘Addition’</li>
+</ol>
+]]></content>
+      <categories>
+        <category>学习相关</category>
+      </categories>
+      <tags>
+        <tag>cs61b</tag>
       </tags>
   </entry>
 </search>
