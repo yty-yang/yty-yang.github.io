@@ -78,7 +78,6 @@
 <li>create <em>Commits</em><br>new a commit(auto commit, no parent, empty fileversion)<br>new a tree, add the commit to it, save</li>
 <li>create <em>Branches</em><br>new a branch(named ‘master’), set auto commit as beginCommit and endCommit, save</li>
 <li>create <em>Stages</em><br>new a stage, set branchName as ‘master’</li>
-<li>create the <em>tree</em>(file)</li>
 </ol>
 <p><strong>add</strong></p>
 <ol>
@@ -89,7 +88,6 @@
 <li>create a commit, set ‘fileversion’ as its parent commit’s ‘fileversion’</li>
 <li>if a file is in ‘Addition’, overwirte the file in ‘fileversion’ by the version of that in ‘Addition’, clear ‘Addition’</li>
 <li>if a file is in ‘Removal’, remove the file from stage, clear ‘Removal’</li>
-<li>add the commit to tree</li>
 <li>renew the endCommmit of the branch</li>
 </ol>
 <p><strong>rm</strong></p>
