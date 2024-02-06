@@ -187,6 +187,114 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://yty-yang.github.io/2024/02/06/Operating-system/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.JPG">
+      <meta itemprop="name" content="wow">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="YTY's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/02/06/Operating-system/" class="post-title-link" itemprop="url">Operating System</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2024-02-06 20:40:11 / Modified: 22:42:37" itemprop="dateCreated datePublished" datetime="2024-02-06T20:40:11+08:00">2024-02-06</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%9B%B8%E5%85%B3/" itemprop="url" rel="index"><span itemprop="name">学习相关</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>今天剑桥项目的助教突然有事没去，本牛津项目的助教被拉去救急。上次已经上过一遍剑桥的项目，感觉他的内容填的非常满过的很快。果不其然，今天讲操作系统，即使是第二次听课也还是晕晕乎乎，感觉上次听的内容全部都已经忘记了。又想到operation system的重要性，以及本科课程不可能讲的比这个还简单，决定整理吸收一下，把剑桥项目提到的东西吃透。（以及来参观一下本人没怎么动过的博客</p>
+<h1 id="why-do-we-need-an-operating-system"><a href="#why-do-we-need-an-operating-system" class="headerlink" title="why do we need an operating system"></a>why do we need an operating system</h1><ul>
+<li>We want to be able to run many programs at the same time</li>
+<li>we need to prevent on program overwriting the data of other programs</li>
+<li>we need to share resources(printer, hard disk, network…),</li>
+<li>we need to share data with permissions</li>
+</ul>
+<h1 id="virtual-memory"><a href="#virtual-memory" class="headerlink" title="virtual memory"></a>virtual memory</h1><p><strong>principle: processes are independent</strong></p>
+<p>Virtual memory lets every process(program instance) thinks that it is the <strong>only</strong> program on the computer, each process runs in a virtual address space, thus, they follow the principle.</p>
+<h1 id="page"><a href="#page" class="headerlink" title="page"></a>page</h1><p>devide memory adresses into pages. For a 32-bit address(2^32 bytes), we devide it into blocks(usually 2^12 bytes), each block is called one page. Therefore, we have 2^20 pages in this scenario.</p>
+<p><img src="/../image/page_adress.png" alt="image"></p>
+<p>for each program, it thinks that it has the whole 2^32 bytes of memory, the operating system uses <strong>translation table</strong> to arange the pages’ physical address so that they won’t be at the same place.</p>
+<p><img src="/../image/page_translation_table.png" alt="image"></p>
+<p>But when whould the translation process accour? To keep the system secure, we need a new hardware support so the hardware automatically translates addresses and there is no way to turn off the translation system.</p>
+<p><strong>Operating system</strong> creates the translation tables when a process is started, gives the translation table to <strong>a special unit inside the CPU</strong> called the <strong>translation lookaside buffer (TLB)</strong>.<br>(<strong>security:</strong> The kernel keeps the translation tables in physical memory but in places that are not the target of any process’s virtual to physical mapping. This is sufficient to prevent any process from changing any translation table.)</p>
+<p>Whenever the process runs a LD or ST instruction, the CPU uses the TLB to translate the address before accessing memory.</p>
+<h1 id="demand-paging"><a href="#demand-paging" class="headerlink" title="demand paging"></a>demand paging</h1><p>When there is no enough memory location, we can copy somepages that are not being used onto hard disk, then overwrite them in momory. This allows us to have more programs open at the same time without losing all the rest of their memory.</p>
+<p><strong>resident bit(R bit)</strong>: a bit per entry in the translation table to indicate that whether the page is resident in the memory or not.</p>
+<p>When a page is not resident, the bits allocated to the physical frame number are repurposed to tell us wehre on disk we saved the page.</p>
+<p>If the running process tries to use an address that translates to a non resident page, goes to <strong>page fault interrupt</strong></p>
+<h1 id="interrupts"><a href="#interrupts" class="headerlink" title="interrupts"></a>interrupts</h1><p>Interrupts allow the CPU to tell the operating system that sth. has happend and that it needs the operating system to decide how to sort it out.</p>
+<p>Interrupts will solve several problems, so an interrupt comes with an integer which idicates what type of problem occurred.</p>
+<p><strong>jump table(vector table): in physical memory beginning at address zero, the operating system puts a table of interrupt service routines: references to blocks of machine code that handle each type of problem</strong></p>
+<h1 id="handling-interrupts"><a href="#handling-interrupts" class="headerlink" title="handling interrupts"></a>handling interrupts</h1><ol>
+<li>interrupt occours</li>
+<li>CPU <strong>saves program counter(PC)</strong> in a special CPU register </li>
+<li>CPU looks up the interrupt number in jump table</li>
+<li>set PC to <strong>the value found in the jump table</strong></li>
+<li>CPU hardware <strong>turns off virtual address translation mechanism</strong>(so that it can have full access to the physical memory), execute the instructions</li>
+<li>each interrupt service routine ends with a special instruction – <strong>RET</strong>, which <strong>turns on the translation mechanism again, restores the PC to the value saved in the special register</strong></li>
+<li>run the program before interrupt as if nothing had happened</li>
+</ol>
+<h1 id="page-fault-interrupt"><a href="#page-fault-interrupt" class="headerlink" title="page fault interrupt"></a>page fault interrupt</h1><p>When the TLB attempts to translate a virtual address but finds that the corresponding translation table entry is non-resident, the TLB raise an interrupt with the integer corresponding to the code number for a page fault.</p>
+<p>The corresponding interrupt service routine selects a <strong>victim page</strong> to move out of memory onto disk, then sends a command to the hard disk to cope the victim page from the memory to the disk, then copys the required page into memory, overwriting the victim page, then execute RET.</p>
+<h1 id="optimisations"><a href="#optimisations" class="headerlink" title="optimisations"></a>optimisations</h1><ul>
+<li>hard disk is much slower than CPU, the operating system will usually decide to run a different program while it waits for hard disk, then return to this one when the hard disk has finished copying data.</li>
+<li>If the victim page has not been written to since it was pulled in from the disk, there is no need to write it out again – it’s the same as the copy on disk! By adding another dirty bit (D) to the translation table entries, we can keep track of whether a page needs to be copied out before it can be overwritten.</li>
+</ul>
+<h1 id="multilevel-paging"><a href="#multilevel-paging" class="headerlink" title="multilevel paging"></a>multilevel paging</h1><p>the translation tables are too large that consume lots of physical memory, we need to be able to <strong>push the translation tables for dormant processes out to the hard disk</strong>.</p>
+<p>solution: make sure page tables are 1 page in size, using <strong>demand paging</strong>.</p>
+<p>structure: a tree of tables. Each process will have a single, top-level (“root”) table, known as a page directory. The entries in the page directory are the physical frame numbers where small pieces of the page table can be found.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="https://yty-yang.github.io/2023/08/03/CS61b-project2-main-structure-of-my-gitlet/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -618,7 +726,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-count">5</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -631,7 +739,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -692,8 +800,8 @@
 
 <div class="copyright">
   
-  &copy; 
-  <span itemprop="copyrightYear">2023</span>
+  &copy; 2023 – 
+  <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-ghost"></i>
   </span>
